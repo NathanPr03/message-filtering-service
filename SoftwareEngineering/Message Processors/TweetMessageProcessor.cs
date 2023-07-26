@@ -11,11 +11,13 @@ public class TweetMessageProcessor: IMessageProcessor
     [JsonProperty] private readonly List<string> _mentions = new();
     [JsonProperty] private readonly List<string> _hashtags = new();
     
+    [JsonProperty] private string _header;
     [JsonProperty] private string _sender;
     [JsonProperty] private string _messageText;
     
     public void Process(string header, string body)
     {
+        _header = header;
         _sender = _messageSplitterService.ExtractSender(body);
         string dirtyMessageText = _messageSplitterService.ExtractMessageText(body);
         _messageText = _textSpeakReplacer.ReplaceTextSpeak(dirtyMessageText);

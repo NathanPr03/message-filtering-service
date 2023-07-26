@@ -10,11 +10,13 @@ public class EmailMessageProcessor: IMessageProcessor
     [JsonProperty] private readonly List<string> _quarantineList = new();
     [JsonProperty] private readonly List<SirDto> _sirList = new();
     
+    [JsonProperty] private string _header;
     [JsonProperty] private string _sender;
     [JsonProperty] private string _messageText;
     
     public void Process(string header, string body)
     {
+        _header = header;
         _sender = _messageSplitterService.ExtractSender(body);
         string messageText = _messageSplitterService.ExtractMessageText(body);
         string subject = _messageSplitterService.ExtractSubject(body);
