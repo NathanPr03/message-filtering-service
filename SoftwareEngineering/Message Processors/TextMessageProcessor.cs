@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 
 namespace SoftwareEngineering.Message_Processors;
@@ -15,8 +16,21 @@ public class TextMessageProcessor: IMessageProcessor
     {
         _header = header;
         _sender = _messageSplitterService.ExtractSender(body);
-        
         string dirtyMessageText = _messageSplitterService.ExtractMessageText(body);
+        
+        Validate(_sender, dirtyMessageText);
         _messageText = _textSpeakReplacer.ReplaceTextSpeak(dirtyMessageText);
+    }
+    
+    private void Validate(string sender, string messageText)
+    {
+        string ukNumberPattern = @"^(\+44|0044|\(0\)|0)?\s?[1-9]{1}\d{1,4}\s?\d{3,4}\s?\d{3,4}$";
+        if (!Regex.IsMatch(sender, ukNumberPattern))
+        {
+            throw new ArgumentException("The sender is not a UK based phone number");
+        }if (messageText.Length >= 1028)
+        {
+            throw new ArgumentException("The message text length is too long, it can be 140 characters at most");
+        }
     }
 }

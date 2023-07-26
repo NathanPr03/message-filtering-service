@@ -12,19 +12,23 @@ public class EmailMessageProcessor: IMessageProcessor
     
     [JsonProperty] private string _header;
     [JsonProperty] private string _sender;
+    [JsonProperty] private string _subject;
     [JsonProperty] private string _messageText;
     
     public void Process(string header, string body)
     {
         _header = header;
         _sender = _messageSplitterService.ExtractSender(body);
+        _subject = _messageSplitterService.ExtractSubject(body);
         string messageText = _messageSplitterService.ExtractMessageText(body);
-        string subject = _messageSplitterService.ExtractSubject(body);
-        if (subject.StartsWith("SIR"))
+        
+        Validate(_subject, messageText);
+        
+        if (_subject.StartsWith("SIR"))
         {
-            ProcessSir(messageText, subject);
+            ProcessSir(messageText, _subject);
         }
-
+        
         _messageText = QuarantineUrls(messageText);
     }
 
@@ -51,4 +55,14 @@ public class EmailMessageProcessor: IMessageProcessor
         });
     }
 
+    private void Validate(string subject, string messageText)
+    {
+        if (subject.Length >= 20)
+        {
+            throw new ArgumentException("The subject length is too long, it can be 20 characters at most");
+        }if (messageText.Length >= 1028)
+        {
+            throw new ArgumentException("The message text length is too long, it can be 1028 characters at most");
+        }
+    }
 }

@@ -20,8 +20,10 @@ public class TweetMessageProcessor: IMessageProcessor
         _header = header;
         _sender = _messageSplitterService.ExtractSender(body);
         string dirtyMessageText = _messageSplitterService.ExtractMessageText(body);
-        _messageText = _textSpeakReplacer.ReplaceTextSpeak(dirtyMessageText);
+        Validate(_sender, dirtyMessageText);
         
+        _messageText = _textSpeakReplacer.ReplaceTextSpeak(dirtyMessageText);
+
         CountMentions(body);
         CountHashtags(body);
     }
@@ -55,6 +57,21 @@ public class TweetMessageProcessor: IMessageProcessor
         foreach (Match match in matches)
         {
             _hashtags.Add(match.Value);
+        }
+    }
+    
+    private void Validate(string sender, string messageText)
+    {
+        if (sender[0] != '@')
+        {
+            throw new ArgumentException("The sender must start with an '@'");
+        }if (sender.Length > 16)
+        {
+            throw new ArgumentException("The sender length is too long, it can be 16 characters at most (including the '@')");
+        }
+        if (messageText.Length >= 1028)
+        {
+            throw new ArgumentException("The message text length is too long, it can be 140 characters at most");
         }
     }
 }
