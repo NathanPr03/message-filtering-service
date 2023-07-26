@@ -3,6 +3,8 @@
 .idea/
 bin
 
+serialised.json
+
 # User-specific files
 *.suo
 *.user
