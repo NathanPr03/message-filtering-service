@@ -9,7 +9,8 @@ public class JsonWriterService
         string jsonString = JsonConvert.SerializeObject(objectToWrite);
         Console.WriteLine(jsonString);
         
-        string filePath = @"./serialised.json";
+        string filePath = @"../../../serialised.json";
+        
         File.WriteAllText(filePath, jsonString);
     }
 }

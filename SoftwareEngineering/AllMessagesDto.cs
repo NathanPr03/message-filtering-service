@@ -5,14 +5,11 @@ namespace SoftwareEngineering;
 
 public class AllMessagesDto
 {
-    [JsonProperty] private EmailMessageProcessor _emailMessageProcessor;
-
     [JsonProperty] private TextMessageProcessor _textMessageProcessor;
-
+    [JsonProperty] private EmailMessageProcessor _emailMessageProcessor;
     [JsonProperty] private TweetMessageProcessor _tweetMessageProcessor;
-
-
-    public AllMessagesDto(EmailMessageProcessor emailMessageProcessor, TextMessageProcessor textMessageProcessor, TweetMessageProcessor tweetMessageProcessor)
+    
+    public AllMessagesDto(TextMessageProcessor textMessageProcessor, EmailMessageProcessor emailMessageProcessor, TweetMessageProcessor tweetMessageProcessor)
     {
         _emailMessageProcessor = emailMessageProcessor;
         _textMessageProcessor = textMessageProcessor;
