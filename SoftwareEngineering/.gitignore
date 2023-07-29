@@ -4,6 +4,7 @@
 bin
 
 serialised.json
+converted.json
 
 # User-specific files
 *.suo
