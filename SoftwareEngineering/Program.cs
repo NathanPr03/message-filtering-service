@@ -23,16 +23,19 @@ string tweetInput = "Sender: @NathanAli Message Text: Some message text LMAO thi
 // var tweetOutput = tweet.Process("esrhue", tweetInput);
 // Print(tweetOutput.Item1 + " | " + tweetOutput.Item2);
 
-var text = new TextMessageProcessor();
-text.Process("esrhue", emailInput);
+// var text = new TextMessageProcessor();
+// text.Process("esrhue", emailInput);
+//
+// var email = new EmailMessageProcessor();
+// email.Process("esrhue", emailInput);
+//
+// var tweet = new TweetMessageProcessor();
+// tweet.Process("dujfjdf", tweetInput);
+//
+// var bigDog = new AllMessagesDto(text, email, tweet);
+//
+// var json = new JsonWriterService();
+// json.WriteToJson(bigDog);
 
-var email = new EmailMessageProcessor();
-email.Process("esrhue", emailInput);
-
-var tweet = new TweetMessageProcessor();
-tweet.Process("dujfjdf", tweetInput);
-
-var bigDog = new AllMessagesDto(text, email, tweet);
-
-var json = new JsonWriterService();
-json.WriteToJson(bigDog);
+var yml = new YmlToJsonService();
+yml.WriteYmlToJson(@"../../../my.yml");

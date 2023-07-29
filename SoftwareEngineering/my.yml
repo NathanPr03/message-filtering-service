@@ -1,0 +1,21 @@
+---
+_textMessageProcessor:
+  _sender: '5084985'
+  _messageText: 98-76-54 Theft Some message text LMAO <Laughing my a** off> https://naerealpal.com
+_emailMessageProcessor:
+  _quarantineList:
+    - https://naerealpal.com
+  _sirList:
+    - Date: 10/11/12
+      SortCode: 98-76-54
+      IncidentNature: Theft
+  _sender: '5084985'
+  _messageText: 98-76-54 Theft Some message text LMAO <URL Quarantined>
+_tweetMessageProcessor:
+  _mentions:
+    - "@LewisYaWanker"
+  _hashtags:
+    - "#cunt"
+  _sender: "@NathanAli"
+  _messageText: 'Some message text LMAO <Laughing my a** off> this is a tweet @LewisYaWanker
+    #cunt'
