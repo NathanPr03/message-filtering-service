@@ -3,25 +3,25 @@ using Newtonsoft.Json;
 
 namespace SoftwareEngineering.Message_Processors;
 
-public class TweetMessageProcessor: IMessageProcessor
+public class TweetMessageProcessor : IMessageProcessor
 {
-    private readonly MessageSplitterService _messageSplitterService = new ();
+    private readonly MessageSplitterService _messageSplitterService = new();
     private readonly TextSpeakReplacer _textSpeakReplacer = new();
-    
+
     [JsonProperty] private readonly List<string> _mentions = new();
     [JsonProperty] private readonly List<string> _hashtags = new();
-    
+
     [JsonProperty] private string _header;
     [JsonProperty] private string _sender;
     [JsonProperty] private string _messageText;
-    
+
     public void Process(string header, string body)
     {
         _header = header;
         _sender = _messageSplitterService.ExtractSender(body);
         string dirtyMessageText = _messageSplitterService.ExtractMessageText(body);
         Validate(_sender, dirtyMessageText);
-        
+
         _messageText = _textSpeakReplacer.ReplaceTextSpeak(dirtyMessageText);
 
         CountMentions(body);
@@ -42,6 +42,7 @@ public class TweetMessageProcessor: IMessageProcessor
                 matchCount++;
                 continue;
             }
+
             _mentions.Add(match.Value);
 
             matchCount++;
@@ -59,16 +60,20 @@ public class TweetMessageProcessor: IMessageProcessor
             _hashtags.Add(match.Value);
         }
     }
-    
+
     private void Validate(string sender, string messageText)
     {
         if (sender[0] != '@')
         {
             throw new ArgumentException("The sender must start with an '@'");
-        }if (sender.Length > 16)
-        {
-            throw new ArgumentException("The sender length is too long, it can be 16 characters at most (including the '@')");
         }
+
+        if (sender.Length > 16)
+        {
+            throw new ArgumentException(
+                "The sender length is too long, it can be 16 characters at most (including the '@')");
+        }
+
         if (messageText.Length >= 1028)
         {
             throw new ArgumentException("The message text length is too long, it can be 140 characters at most");

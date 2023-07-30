@@ -30,6 +30,8 @@ public class EmailMessageProcessor: IMessageProcessor
         }
         
         _messageText = QuarantineUrls(messageText);
+        
+        
     }
 
     private void ProcessSir(string message, string subject)
