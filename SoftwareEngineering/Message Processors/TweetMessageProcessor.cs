@@ -5,6 +5,8 @@ namespace SoftwareEngineering.Message_Processors;
 
 public class TweetMessageProcessor : IMessageProcessor
 {
+    private const string MessageType = "Tweet";
+    
     private readonly MessageSplitterService _messageSplitterService = new();
     private readonly TextSpeakReplacer _textSpeakReplacer = new();
 
@@ -15,7 +17,7 @@ public class TweetMessageProcessor : IMessageProcessor
     [JsonProperty] private string _sender;
     [JsonProperty] private string _messageText;
 
-    public void Process(string header, string body)
+    public (string, string) Process(string header, string body)
     {
         _header = header;
         _sender = _messageSplitterService.ExtractSender(body);
@@ -26,6 +28,8 @@ public class TweetMessageProcessor : IMessageProcessor
 
         CountMentions(body);
         CountHashtags(body);
+
+        return (MessageType, _messageText);
     }
 
     private void CountMentions(string body)

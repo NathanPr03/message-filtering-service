@@ -5,6 +5,8 @@ namespace SoftwareEngineering.Message_Processors;
 
 public class TextMessageProcessor: IMessageProcessor
 {
+    private const string MessageType = "SMS";
+    
     private readonly MessageSplitterService _messageSplitterService = new ();
     private readonly TextSpeakReplacer _textSpeakReplacer = new();
     
@@ -12,7 +14,7 @@ public class TextMessageProcessor: IMessageProcessor
     [JsonProperty] private string _sender;
     [JsonProperty] private string _messageText;
     
-    public void Process(string header, string body)
+    public (string, string) Process(string header, string body)
     {
         _header = header;
         _sender = _messageSplitterService.ExtractSender(body);
@@ -20,6 +22,8 @@ public class TextMessageProcessor: IMessageProcessor
         
         Validate(_sender, dirtyMessageText);
         _messageText = _textSpeakReplacer.ReplaceTextSpeak(dirtyMessageText);
+
+        return (MessageType, _messageText);
     }
     
     private void Validate(string sender, string messageText)

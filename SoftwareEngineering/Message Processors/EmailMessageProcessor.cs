@@ -5,6 +5,8 @@ namespace SoftwareEngineering.Message_Processors;
 
 public class EmailMessageProcessor: IMessageProcessor
 {
+    private const string MessageType = "Email";
+    
     private readonly MessageSplitterService _messageSplitterService = new ();
     
     [JsonProperty] private readonly List<string> _quarantineList = new();
@@ -14,8 +16,8 @@ public class EmailMessageProcessor: IMessageProcessor
     [JsonProperty] private string _sender;
     [JsonProperty] private string _subject;
     [JsonProperty] private string _messageText;
-    
-    public void Process(string header, string body)
+
+    public (string, string) Process(string header, string body)
     {
         _header = header;
         _sender = _messageSplitterService.ExtractSender(body);
@@ -30,8 +32,8 @@ public class EmailMessageProcessor: IMessageProcessor
         }
         
         _messageText = QuarantineUrls(messageText);
-        
-        
+
+        return (MessageType, messageText);
     }
 
     private void ProcessSir(string message, string subject)
