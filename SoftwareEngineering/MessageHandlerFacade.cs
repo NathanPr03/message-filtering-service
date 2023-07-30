@@ -19,6 +19,12 @@ public class MessageHandlerFacade
 
     public void WriteToJsonOnSessionFinish()
     {
+        var email = _routerService.GetEmailMessageProcessor();
+        var tweet = _routerService.GetTweetMessageProcessor();
+
+        _jsonWriterService.WriteToJson(email.GetSirList());
+        _jsonWriterService.WriteToJson(tweet.GetHashtags());
+        _jsonWriterService.WriteToJson(tweet.GetMentions());
         _jsonWriterService.WriteToJson(_messages);
     }
 }

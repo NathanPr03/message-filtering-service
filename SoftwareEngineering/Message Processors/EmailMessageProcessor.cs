@@ -36,6 +36,8 @@ public class EmailMessageProcessor: IMessageProcessor
         return (MessageType, messageText);
     }
 
+    public List<SirDto> GetSirList() => _sirList;
+    
     private void ProcessSir(string message, string subject)
     {
         string date = subject.Substring(4).Trim();

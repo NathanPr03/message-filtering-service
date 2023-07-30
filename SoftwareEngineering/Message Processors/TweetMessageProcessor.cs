@@ -32,6 +32,10 @@ public class TweetMessageProcessor : IMessageProcessor
         return (MessageType, _messageText);
     }
 
+    public List<string> GetMentions() => _mentions;
+
+    public List<string> GetHashtags() => _hashtags;
+
     private void CountMentions(string body)
     {
         string pattern = @"@\w+"; // Match '@' followed by one or more word characters

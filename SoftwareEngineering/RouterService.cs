@@ -30,4 +30,9 @@ public class RouterService
                 throw new ArgumentException("Invalid header, it must start with either 'S', 'E' or 'T'");
         }
     }
+
+    public TextMessageProcessor GetTextMessageProcessor() => _textMessageProcessor;
+    public EmailMessageProcessor GetEmailMessageProcessor() => _emailMessageProcessor;
+    public TweetMessageProcessor GetTweetMessageProcessor() => _tweetMessageProcessor;
+
 }
