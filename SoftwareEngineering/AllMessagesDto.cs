@@ -1,18 +1,37 @@
 using Newtonsoft.Json;
-using SoftwareEngineering.Message_Processors;
 
 namespace SoftwareEngineering;
 
 public class AllMessagesDto
 {
-    [JsonProperty] private TextMessageProcessor _textMessageProcessor;
-    [JsonProperty] private EmailMessageProcessor _emailMessageProcessor;
-    [JsonProperty] private TweetMessageProcessor _tweetMessageProcessor;
-    
-    public AllMessagesDto(TextMessageProcessor textMessageProcessor, EmailMessageProcessor emailMessageProcessor, TweetMessageProcessor tweetMessageProcessor)
+    [JsonProperty]
+    private readonly List<Message> _messages;
+    [JsonProperty]
+    private readonly List<SirDto> _sirDtos;
+    [JsonProperty]
+    private readonly Dictionary<string, int> _mentions;
+    [JsonProperty]
+    private readonly Dictionary<string, int> _hashtags;
+
+    public AllMessagesDto(List<Message> messages, List<SirDto> sirDtos, Dictionary<string, int> mentions, Dictionary<string, int> hashtags)
     {
-        _emailMessageProcessor = emailMessageProcessor;
-        _textMessageProcessor = textMessageProcessor;
-        _tweetMessageProcessor = tweetMessageProcessor;
+        _messages = messages;
+        _sirDtos = sirDtos;
+        _mentions = mentions;
+        _hashtags = hashtags;
+    }
+}
+
+public record Message()
+{
+    [JsonProperty]
+    private readonly string _messageType;
+    [JsonProperty]
+    private readonly string _messageText;
+
+    public Message(string messageType, string messageText) : this()
+    {
+        _messageType = messageType;
+        _messageText = messageText;
     }
 }

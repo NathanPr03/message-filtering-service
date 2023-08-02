@@ -10,8 +10,8 @@ public class TweetMessageProcessor : IMessageProcessor
     private readonly MessageSplitterService _messageSplitterService = new();
     private readonly TextSpeakReplacer _textSpeakReplacer = new();
 
-    [JsonProperty] private readonly List<string> _mentions = new();
-    [JsonProperty] private readonly List<string> _hashtags = new();
+    [JsonProperty] private readonly Dictionary<string, int> _mentions = new(); // These two should be maps to preserve a count!!
+    [JsonProperty] private readonly Dictionary<string, int> _hashtags = new();
 
     [JsonProperty] private string _header;
     [JsonProperty] private string _sender;
@@ -32,9 +32,9 @@ public class TweetMessageProcessor : IMessageProcessor
         return (MessageType, _messageText);
     }
 
-    public List<string> GetMentions() => _mentions;
+    public Dictionary<string, int> GetMentions() => _mentions;
 
-    public List<string> GetHashtags() => _hashtags;
+    public Dictionary<string, int> GetHashtags() => _hashtags;
 
     private void CountMentions(string body)
     {
@@ -51,8 +51,16 @@ public class TweetMessageProcessor : IMessageProcessor
                 continue;
             }
 
-            _mentions.Add(match.Value);
-
+            var value = match.Value;
+            
+            if (_mentions.ContainsKey(value))
+            {
+                _mentions[value] += 1;
+            }
+            else
+            {
+                _mentions[value] = 1;
+            }
             matchCount++;
         }
     }
@@ -65,7 +73,16 @@ public class TweetMessageProcessor : IMessageProcessor
 
         foreach (Match match in matches)
         {
-            _hashtags.Add(match.Value);
+            var value = match.Value;
+            
+            if (_hashtags.ContainsKey(value))
+            {
+                _hashtags[value] += 1;
+            }
+            else
+            {
+                _hashtags[value] = 1;
+            }
         }
     }
 

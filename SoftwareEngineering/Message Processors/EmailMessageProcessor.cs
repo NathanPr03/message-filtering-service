@@ -33,7 +33,7 @@ public class EmailMessageProcessor: IMessageProcessor
         
         _messageText = QuarantineUrls(messageText);
 
-        return (MessageType, messageText);
+        return (MessageType, _messageText);
     }
 
     public List<SirDto> GetSirList() => _sirList;
